@@ -1,5 +1,5 @@
 Package.describe({
-  name: "conielo:react-form-handler",
+  name: "coniel:react-form-handler",
   summary: "React form validation using aldeed:simple-schema" ,
   version: "0.1.0"
 });
