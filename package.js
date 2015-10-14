@@ -2,7 +2,7 @@ Package.describe({
   name: "coniel:react-form-handler",
   summary: "React form validation using aldeed:simple-schema" ,
   git: 'https://github.com/coniel/meteor-react-form-handler.git',
-  version: "0.1.3"
+  version: "0.1.4"
 });
 
 Package.onUse(function(api) {
@@ -10,7 +10,7 @@ Package.onUse(function(api) {
 
   // Dependencies
   api.use([
-      'react@0.1.10',
+      'react@0.1.13',
       'aldeed:simple-schema@1.3.3',
       'check'
   ]);
