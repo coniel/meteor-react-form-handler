@@ -5,6 +5,11 @@ Form = React.createClass({
         onSubmit: React.PropTypes.func,
         resetOnSubmit: React.PropTypes.bool
     },
+    getInitialState() {
+        return {
+            errors: {}
+        }
+    },
     componentWillMount() {
         console.log(this.props.id);
         FormHandler.initializeForm(this.props.id);
@@ -13,21 +18,41 @@ Form = React.createClass({
         // Set focus to a form input by name
         this.refs[name].refs.input.focus();
     },
+    submit() {
+        this._onSubmit();
+    },
     _onSubmit(event) {
         // Event is not defined if onSubmit is called pragmatically
         if (event) {
             event.preventDefault();
         }
 
-        FormHandler.submitForm(this.props.id);
+        var doc = FormHandler.getFormDoc(this.props.id);
+        var validationContext = this.props.schema.newContext();
 
-        if (this.props.onSubmit) {
-            var doc = FormHandler.getFormDoc(this.props.id);
-            this.props.onSubmit(doc);
-        }
+        // Remove empty strings
+        doc = Utils.cleanNulls(doc);
 
-        if (this.props.resetOnSubmit) {
-            this.refs.form.getDOMNode().reset();
+        if (!validationContext.validate(doc)) {
+            var errors = {};
+
+            _.each(validationContext._invalidKeys, function(error) {
+                errors[error.name] = error.type;
+            });
+
+            this.setState({errors: errors});
+
+        } else {
+            this.setState({errors: {}});
+            FormHandler.submitForm(this.props.id);
+
+            if (this.props.onSubmit) {
+                this.props.onSubmit(doc);
+            }
+
+            if (this.props.resetOnSubmit) {
+                this.refs.form.getDOMNode().reset();
+            }
         }
     },
     _renderChildren: function () {
@@ -63,6 +88,23 @@ Form = React.createClass({
 
                         if (schemaObject.placeholder) {
                             newChildProps.hintText = TAPi18n.__(schemaObject.placeholder);
+                        }
+
+                        if (schemaObject.allowedValues) {
+                            newChildProps.allowedValues = schemaObject.allowedValues;
+                        }
+
+                        if (typeof this.props.schema._schema[child.props.name + ".$"] !== 'undefined') {
+                            var itemSchemaObject = this.props.schema._schema[child.props.name + ".$"];
+                            if (itemSchemaObject.allowedValues) {
+                                newChildProps.allowedValues = itemSchemaObject.allowedValues;
+                            }
+                        }
+
+                        if (this.state.errors[child.props.name]) {
+                            newChildProps.errorText = TAPi18n.__('errors.' + this.state.errors[child.props.name]);
+                        } else {
+                            newChildProps.errorText = '';
                         }
 
                         return React.cloneElement(child, newChildProps);
