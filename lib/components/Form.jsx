@@ -11,7 +11,6 @@ Form = React.createClass({
         }
     },
     componentWillMount() {
-        console.log(this.props.id);
         FormHandler.initializeForm(this.props.id);
     },
     focusInput: function (name) {
@@ -80,14 +79,15 @@ Form = React.createClass({
                             }
                         }
 
-                        if (child.props.noFloatLabel) {
-                            newChildProps.hintText = TAPi18n.__(schemaObject.label);
-                        } else {
-                            newChildProps.floatingLabelText = TAPi18n.__(schemaObject.label);
+                        
+                        
+                        if (schemaObject.label) {
+                        	newChildProps.label = (FormHandler.i18n)? TAPi18n.__(schemaObject.label) : schemaObject.label;
                         }
+                        
 
                         if (schemaObject.placeholder) {
-                            newChildProps.hintText = TAPi18n.__(schemaObject.placeholder);
+                        	newChildProps.placeholder = (FormHandler.i18n)? TAPi18n.__(schemaObject.placeholder) : schemaObject.placeholder;
                         }
 
                         if (schemaObject.allowedValues) {
@@ -102,7 +102,7 @@ Form = React.createClass({
                         }
 
                         if (this.state.errors[child.props.name]) {
-                            newChildProps.errorText = TAPi18n.__('errors.' + this.state.errors[child.props.name]);
+                            newChildProps.errorText = (FormHandler.i18n)? TAPi18n.__('errors.' + this.state.errors[child.props.name]) : this.state.errors[child.props.name];
                         } else {
                             newChildProps.errorText = '';
                         }

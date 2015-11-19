@@ -17,6 +17,7 @@ Package.onUse(function(api) {
 
   // Shared files
   api.addFiles([
+      'lib/utils.js',
       'lib/react-form-handler.jsx',
       'lib/simple-schema-extensions.js',
       'lib/layout-styles.js',

@@ -1,10 +1,10 @@
 FormHandler = {};
+FormHandler.i18n = false;
 FormHandler.forms = {};
 FormHandler.hooks = {};
 FormHandler.globalHooks = {};
 
 FormHandler.initializeForm = function (formId) {
-    console.log("initializing form", formId);
     FormHandler.forms[formId] = {
         doc: {},
         hasErrors: false,
