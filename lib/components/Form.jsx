@@ -103,8 +103,10 @@ Form = React.createClass({
 
                         if (this.state.errors[child.props.name]) {
                             newChildProps.errorText = (FormHandler.i18n)? TAPi18n.__('errors.' + this.state.errors[child.props.name]) : this.state.errors[child.props.name];
+                            newChildProps.error = true;
                         } else {
                             newChildProps.errorText = '';
+                            newChildProps.error = false;
                         }
 
                         return React.cloneElement(child, newChildProps);
