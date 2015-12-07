@@ -55,6 +55,11 @@ Form = React.createClass({
         }
     },
     _renderChildren: function () {
+
+        if (this.props.doc) {
+            FormHandler.setFormDoc(this.props.id, this.props.doc);
+        }
+
         var that = this;
         var formDoc = FormHandler.getFormDoc(this.props.id);
 
@@ -67,16 +72,17 @@ Form = React.createClass({
                         var newChildProps = {
                             name: child.props.name,
                             ref: child.props.name,
-                            formId: that.props.id,
-                            value: formDoc[child.props.name]
+                            formId: that.props.id
                         };
 
-                        if (!newChildProps.value) {
+                        if (!formDoc[child.props.name]) {
                             if (child.props.defaultValue) {
                                 newChildProps.defaultValue = child.props.defaultValue;
                             } else if (schemaObject.defaultValue) {
                                 newChildProps.defaultValue = schemaObject.defaultValue;
                             }
+                        } else {
+                            newChildProps.defaultValue = formDoc[child.props.name];
                         }
 
                         

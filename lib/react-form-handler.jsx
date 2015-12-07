@@ -71,3 +71,7 @@ FormHandler.addGlobalHook = function(hookName, hookFunction) {
 FormHandler.getFormDoc = function(formId) {
     return FormHandler.forms[formId].doc;
 };
+
+FormHandler.setFormDoc = function(formId, doc) {
+    FormHandler.forms[formId].doc = doc;
+};
