@@ -1,7 +1,7 @@
 FormHandler = {};
 FormHandler.i18n = false;
 FormHandler.debug = false;
-FormHandler.ignoreFields = ["_id"];
+FormHandler.ignoreFields = [];
 FormHandler.forms = {};
 FormHandler.hooks = {};
 FormHandler.globalHooks = {};
