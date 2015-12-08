@@ -29,6 +29,14 @@ Form = React.createClass({
         var doc = FormHandler.getFormDoc(this.props.id);
         var validationContext = this.props.schema.newContext();
 
+        // Temporarily remove the doc's ignored fields
+        // so an error isn't thrown when validating
+        var ignoredFields = {};
+        _.each(FormHandler.ignoreFields, (field) => {
+            ignoredFields[field] = doc[field];
+            delete doc[field];
+        });
+
         // Remove empty strings
         doc = Utils.cleanNulls(doc);
 
@@ -41,11 +49,23 @@ Form = React.createClass({
 
             this.setState({errors: errors});
 
+            if (FormHandler.debug) {
+                console.error("React form handler validation errors", errors);
+            }
+
         } else {
             this.setState({errors: {}});
             FormHandler.submitForm(this.props.id);
 
             if (this.props.onSubmit) {
+
+                // Restore ignored fields
+                if (ignoredFields) {
+                    _.each(ignoredFields, (value, key) => {
+                        doc[key] = value;
+                    });
+                }
+
                 this.props.onSubmit(doc);
             }
 
