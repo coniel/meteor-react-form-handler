@@ -89,11 +89,10 @@ Form = React.createClass({
                     var schemaObject = this.props.schema._schema[child.props.name];
 
                     if (!!schemaObject) {
-                        var newChildProps = {
-                            name: child.props.name,
-                            ref: child.props.name,
-                            formId: that.props.id
-                        };
+                        var newChildProps = _.clone(child.props);
+                        console.log(newChildProps);
+                        newChildProps.ref = child.props.name;
+                        newChildProps.formId = that.props.id;
 
                         if (!formDoc[child.props.name]) {
                             if (child.props.defaultValue) {
@@ -105,7 +104,9 @@ Form = React.createClass({
                             newChildProps.defaultValue = formDoc[child.props.name];
                         }
 
-                        
+                        if (schemaObject.type === Number) {
+                            newChildProps._valueType = "number";
+                        }
                         
                         if (schemaObject.label) {
                         	newChildProps.label = (FormHandler.i18n)? TAPi18n.__(schemaObject.label) : schemaObject.label;
@@ -146,8 +147,19 @@ Form = React.createClass({
         }
     },
     render: function() {
+
+        let className = "";
+
+        if (this.props.className) {
+            className += " " + this.props.className;
+        }
+
+        if (FormHandler.formClass) {
+            className += " " + FormHandler.formClass;
+        }
+
         return (
-            <form {...this.props} ref="form" id={this.props.id} onSubmit={this._onSubmit}>
+            <form {...this.props} className={className} ref="form" id={this.props.id} onSubmit={this._onSubmit}>
                 {this._renderChildren()}
                 <div style={{clear: "both"}}></div>
             </form>
