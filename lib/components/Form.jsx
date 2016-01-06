@@ -90,7 +90,6 @@ Form = React.createClass({
 
                     if (!!schemaObject) {
                         var newChildProps = _.clone(child.props);
-                        console.log(newChildProps);
                         newChildProps.ref = child.props.name;
                         newChildProps.formId = that.props.id;
 
