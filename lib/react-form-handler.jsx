@@ -77,3 +77,11 @@ FormHandler.getFormDoc = function(formId) {
 FormHandler.setFormDoc = function(formId, doc) {
     FormHandler.forms[formId].doc = doc;
 };
+
+FormHandler.getFieldValue = function(field){
+  if(['checkbox', 'radio'].indexOf(field.type) > -1){
+    return field.checked;
+  }
+
+  return field.value;
+};

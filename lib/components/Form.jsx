@@ -28,7 +28,7 @@ Form = React.createClass({
 
         var doc = _.reduce(this.refs.form.querySelectorAll('[name]'),
           (doc, field) => {
-            doc[field.name] = field.value;
+            doc[field.name] = FormHandler.getFieldValue(field);
             return doc;
         }, {});
 
