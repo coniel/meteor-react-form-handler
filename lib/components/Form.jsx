@@ -93,6 +93,7 @@ Form = React.createClass({
                         console.log(newChildProps);
                         newChildProps.ref = child.props.name;
                         newChildProps.formId = that.props.id;
+                        newChildProps.formSchema = this.props.schema;
 
                         if (!formDoc[child.props.name]) {
                             if (child.props.defaultValue) {
@@ -107,11 +108,11 @@ Form = React.createClass({
                         if (schemaObject.type === Number) {
                             newChildProps._valueType = "number";
                         }
-                        
+
                         if (schemaObject.label) {
                         	newChildProps.label = (FormHandler.i18n)? TAPi18n.__(schemaObject.label) : schemaObject.label;
                         }
-                        
+
 
                         if (schemaObject.placeholder) {
                         	newChildProps.placeholder = (FormHandler.i18n)? TAPi18n.__(schemaObject.placeholder) : schemaObject.placeholder;
