@@ -26,7 +26,12 @@ Form = React.createClass({
             event.preventDefault();
         }
 
-        var doc = FormHandler.getFormDoc(this.props.id);
+        var doc = _.reduce(this.refs.form.querySelectorAll('[name]'),
+          (doc, field) => {
+            doc[field.name] = field.value;
+            return doc;
+        }, {});
+
         var validationContext = this.props.schema.newContext();
 
         // Temporarily remove the doc's ignored fields
