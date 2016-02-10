@@ -77,3 +77,7 @@ FormHandler.getFormDoc = function(formId) {
 FormHandler.setFormDoc = function(formId, doc) {
     FormHandler.forms[formId].doc = doc;
 };
+
+FormHandler.updateFormDoc = function(formId, doc) {
+     _.extend(FormHandler.forms[formId].doc, doc);
+};

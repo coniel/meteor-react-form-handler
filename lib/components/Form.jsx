@@ -69,8 +69,8 @@ Form = React.createClass({
                 this.props.onSubmit(doc);
             }
 
-            if (this.props.resetOnSubmit) {
-                this.refs.form.getDOMNode().reset();
+            if (this.props.resetOnSubmit !== false) {
+                this.refs.form.reset();
             }
         }
     },
@@ -85,7 +85,7 @@ Form = React.createClass({
 
         if (this.props.children) {
             return React.Children.map(this.props.children, function (child) {
-                if (child.props.name) {
+                if (child.props && child.props.name) {
                     var schemaObject = this.props.schema._schema[child.props.name];
 
                     if (!!schemaObject) {
