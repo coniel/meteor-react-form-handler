@@ -1,8 +1,8 @@
 Package.describe({
-  name: "coniel:react-form-handler",
+  name: "astrocoders:react-form-handler",
   summary: "React form validation using aldeed:simple-schema" ,
   git: 'https://github.com/coniel/meteor-react-form-handler.git',
-  version: "0.3.1"
+  version: "0.4.1"
 });
 
 Package.onUse(function(api) {
