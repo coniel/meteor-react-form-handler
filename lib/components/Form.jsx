@@ -27,6 +27,7 @@ Form = React.createClass({
         }
 
         var schema = this.props.schema;
+        var formToDoc = FormHandler[this.props.id].formToDoc;
 
         var doc = schema.clean(_.reduce(this.refs.form.querySelectorAll('[name]'),
           (doc, field) => {
@@ -46,6 +47,7 @@ Form = React.createClass({
 
         // Remove empty strings
         doc = Utils.cleanNulls(doc);
+        doc = formToDoc ? formToDoc(doc) : doc; 
 
         if (!validationContext.validate(doc)) {
             var errors = {};
