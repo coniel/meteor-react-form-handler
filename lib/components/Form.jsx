@@ -118,7 +118,7 @@ Form = React.createClass({
                             newChildProps._valueType = "number";
                         }
 
-                        if (schemaObject.label) {
+                        if (schemaObject.label && !newChildProps.label) {
                         	newChildProps.label = (FormHandler.i18n)? TAPi18n.__(schemaObject.label) : schemaObject.label;
                         }
 
