@@ -27,7 +27,7 @@ Form = React.createClass({
         }
 
         var schema = this.props.schema;
-        var formToDoc = FormHandler[this.props.id].formToDoc;
+        var formToDoc = FormHandler[this.props.id] && FormHandler[this.props.id].formToDoc;
 
         var doc = schema.clean(_.reduce(this.refs.form.querySelectorAll('[name]'),
           (doc, field) => {
