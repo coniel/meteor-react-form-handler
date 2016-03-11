@@ -3,24 +3,31 @@ Form = React.createClass({
         schema: React.PropTypes.instanceOf(SimpleSchema).isRequired,
         id: React.PropTypes.string.isRequired,
         onSubmit: React.PropTypes.func,
-        resetOnSubmit: React.PropTypes.bool
+        resetOnSubmit: React.PropTypes.bool,
     },
-    getInitialState() {
+    childContextTypes: {
+     schema: React.PropTypes.instanceOf(SimpleSchema), 
+    },
+    // Assuming that the schema won't get changed
+    getChildContext(){
+      return { schema: this.props.schema };
+    },
+    getInitialState(){
         return {
             errors: {}
         }
     },
-    componentWillMount() {
+    componentWillMount(){
         FormHandler.initializeForm(this.props.id);
     },
-    focusInput: function (name) {
+    focusInput(name){
         // Set focus to a form input by name
         this.refs[name].refs.input.focus();
     },
-    submit() {
+    submit(){
         this._onSubmit();
     },
-    _onSubmit(event) {
+    _onSubmit(event){
         // Event is not defined if onSubmit is called pragmatically
         if (event) {
             event.preventDefault();
