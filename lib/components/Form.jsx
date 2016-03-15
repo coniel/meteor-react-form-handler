@@ -110,14 +110,21 @@ Form = React.createClass({
                         if (schemaObject.label) {
                         	newChildProps.label = (FormHandler.i18n)? TAPi18n.__(schemaObject.label) : schemaObject.label;
                         }
-                        
 
                         if (schemaObject.placeholder) {
-                        	newChildProps.placeholder = (FormHandler.i18n)? TAPi18n.__(schemaObject.placeholder) : schemaObject.placeholder;
+                            newChildProps.placeholder = (FormHandler.i18n) ? TAPi18n.__(schemaObject.placeholder) : schemaObject.placeholder;
                         }
 
                         if (schemaObject.allowedValues) {
                             newChildProps.allowedValues = schemaObject.allowedValues;
+                        }
+
+                        if (schemaObject.min) {
+                            newChildProps.min = schemaObject.min;
+                        }
+
+                        if (schemaObject.max) {
+                            newChildProps.max = schemaObject.max;
                         }
 
                         if (typeof this.props.schema._schema[child.props.name + ".$"] !== 'undefined') {
@@ -130,7 +137,7 @@ Form = React.createClass({
                         if (this.state.errors[child.props.name]) {
                             newChildProps.errorText = (FormHandler.i18n)? TAPi18n.__('errors.' + this.state.errors[child.props.name]) : this.state.errors[child.props.name];
                             newChildProps.error = true;
-                        } else {
+                        } else if (!child.props.error) {
                             newChildProps.errorText = '';
                             newChildProps.error = false;
                         }
