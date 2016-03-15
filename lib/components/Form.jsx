@@ -27,8 +27,6 @@ Form = React.createClass({
         }
 
         var doc = FormHandler.getFormDoc(this.props.id);
-        console.log(doc);
-
         var validationContext = this.props.schema.newContext();
 
         // Temporarily remove the doc's ignored fields
@@ -116,8 +114,9 @@ Form = React.createClass({
                         	newChildProps.label = (FormHandler.i18n)? TAPi18n.__(schemaObject.label) : schemaObject.label;
                         }
 
-                        if (schemaObject.placeholder) {
-                            newChildProps.placeholder = (FormHandler.i18n) ? TAPi18n.__(schemaObject.placeholder) : schemaObject.placeholder;
+                        if (schemaObject.placeholder || newChildProps.placeholder) {
+                            var placeholder = newChildProps.placeholder || schemaObject.placeholder;
+                        	newChildProps.placeholder = (FormHandler.i18n)? TAPi18n.__(placeholder) : placeholder;
                         }
 
                         if (schemaObject.allowedValues) {
