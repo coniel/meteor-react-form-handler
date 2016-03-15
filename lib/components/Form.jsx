@@ -27,6 +27,7 @@ Form = React.createClass({
         }
 
         var doc = FormHandler.getFormDoc(this.props.id);
+        console.log(doc);
 
         var validationContext = this.props.schema.newContext();
 
@@ -63,7 +64,9 @@ Form = React.createClass({
                 // Restore ignored fields
                 if (ignoredFields) {
                     _.each(ignoredFields, (value, key) => {
-                        doc[key] = value;
+                        if (value) {
+                            doc[key] = value;
+                        }
                     });
                 }
 
