@@ -27,6 +27,7 @@ Form = React.createClass({
         }
 
         var doc = FormHandler.getFormDoc(this.props.id);
+
         var validationContext = this.props.schema.newContext();
 
         // Temporarily remove the doc's ignored fields
@@ -92,6 +93,7 @@ Form = React.createClass({
                         var newChildProps = _.clone(child.props);
                         newChildProps.ref = child.props.name;
                         newChildProps.formId = that.props.id;
+                        newChildProps.schema = schemaObject;
 
                         if (!formDoc[child.props.name]) {
                             if (child.props.defaultValue) {
