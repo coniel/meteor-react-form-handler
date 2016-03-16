@@ -1,7 +1,7 @@
 Form = React.createClass({
     propTypes: {
         schema: React.PropTypes.instanceOf(SimpleSchema).isRequired,
-        id: React.PropTypes.string.isRequired,
+        id: React.PropTypes.string,
         onSubmit: React.PropTypes.func,
         resetOnSubmit: React.PropTypes.bool,
     },
