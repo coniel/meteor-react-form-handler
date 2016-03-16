@@ -3,31 +3,46 @@ Form = React.createClass({
         schema: React.PropTypes.instanceOf(SimpleSchema).isRequired,
         id: React.PropTypes.string.isRequired,
         onSubmit: React.PropTypes.func,
-        resetOnSubmit: React.PropTypes.bool
+        resetOnSubmit: React.PropTypes.bool,
     },
-    getInitialState() {
+    childContextTypes: {
+     schema: React.PropTypes.instanceOf(SimpleSchema), 
+    },
+    // Assuming that the schema won't get changed
+    getChildContext(){
+      return { schema: this.props.schema };
+    },
+    getInitialState(){
         return {
             errors: {}
         }
     },
-    componentWillMount() {
+    componentWillMount(){
         FormHandler.initializeForm(this.props.id);
     },
-    focusInput: function (name) {
+    focusInput(name){
         // Set focus to a form input by name
         this.refs[name].refs.input.focus();
     },
-    submit() {
+    submit(){
         this._onSubmit();
     },
-    _onSubmit(event) {
+    _onSubmit(event){
         // Event is not defined if onSubmit is called pragmatically
         if (event) {
             event.preventDefault();
         }
 
-        var doc = FormHandler.getFormDoc(this.props.id);
-        var validationContext = this.props.schema.newContext();
+        var schema = this.props.schema;
+        var formToDoc = FormHandler[this.props.id] && FormHandler[this.props.id].formToDoc;
+
+        var doc = schema.clean(_.reduce(this.refs.form.querySelectorAll('[name]'),
+          (doc, field) => {
+            doc[field.name] = FormHandler.getFieldValue(field);
+            return doc;
+        }, {}));
+
+        var validationContext = schema.newContext();
 
         // Temporarily remove the doc's ignored fields
         // so an error isn't thrown when validating
@@ -39,6 +54,7 @@ Form = React.createClass({
 
         // Remove empty strings
         doc = Utils.cleanNulls(doc);
+        doc = formToDoc ? formToDoc(doc) : doc; 
 
         if (!validationContext.validate(doc)) {
             var errors = {};
@@ -94,7 +110,7 @@ Form = React.createClass({
                         var newChildProps = _.clone(child.props);
                         newChildProps.ref = child.props.name;
                         newChildProps.formId = that.props.id;
-                        newChildProps.schema = schemaObject;
+                        newChildProps.formSchema = this.props.schema;
 
                         if (!formDoc[child.props.name]) {
                             if (child.props.defaultValue) {
@@ -109,8 +125,8 @@ Form = React.createClass({
                         if (schemaObject.type === Number) {
                             newChildProps._valueType = "number";
                         }
-                        
-                        if (schemaObject.label) {
+
+                        if (schemaObject.label && !newChildProps.label) {
                         	newChildProps.label = (FormHandler.i18n)? TAPi18n.__(schemaObject.label) : schemaObject.label;
                         }
 
