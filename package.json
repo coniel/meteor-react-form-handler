@@ -1,6 +1,6 @@
 {
   "name": "react-ss-form-handler",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Form component with validation done using Simple Schema",
   "files": [
     "dist"
@@ -28,11 +28,11 @@
   },
   "homepage": "https://github.com/coniel/meteor-react-form-handler#readme",
   "peerDependencies": {
-    "simpl-schema": "git://github.com/aldeed/node-simple-schema.git#a2ffec47012f1e66b66eebd62dccbec15cf4b2f5",
     "react": "^15.0.0"
   },
   "dependencies": {
-    "babel-polyfill": "^6.9.1"
+    "babel-polyfill": "^6.9.1",
+    "simpl-schema": "git://github.com/aldeed/node-simple-schema.git#a2ffec47012f1e66b66eebd62dccbec15cf4b2f5"
   },
   "devDependencies": {
     "babel-cli": "^6.10.1",
