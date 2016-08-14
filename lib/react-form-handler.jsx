@@ -1,4 +1,4 @@
-FormHandler = {};
+const FormHandler = {};
 FormHandler.i18n = false;
 FormHandler.debug = false;
 FormHandler.ignoreFields = [];
@@ -89,3 +89,5 @@ FormHandler.getFieldValue = function(field){
 
   return field.value;
 };
+
+export default FormHandler;

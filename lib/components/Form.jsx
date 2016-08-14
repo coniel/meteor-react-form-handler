@@ -1,38 +1,48 @@
-Form = React.createClass({
-    propTypes: {
-        schema: React.PropTypes.instanceOf(SimpleSchema).isRequired,
-        id: React.PropTypes.string,
-        onSubmit: React.PropTypes.func,
-        resetOnSubmit: React.PropTypes.bool,
-    },
-    childContextTypes: {
-     schema: React.PropTypes.instanceOf(SimpleSchema), 
-    },
+import { Component, PropTypes } from 'react';
+import SimpleSchema from 'simpl-schema';
+import Utils from '../utils';
+
+class FormComponent extends Component {
+
+    constructor() {
+        super();
+
+        this._onSubmit = this._onSubmit.bind(this);
+        this.submit = this.submit.bind(this);
+
+        this.state = {
+            errors: {}
+        };
+    }
+
     // Assuming that the schema won't get changed
     getChildContext(){
       return { schema: this.props.schema };
-    },
-    getInitialState(){
-        return {
-            errors: {}
-        }
-    },
+    }
+
     componentWillMount(){
         FormHandler.initializeForm(this.props.id);
-    },
+    }
+
     focusInput(name){
         // Set focus to a form input by name
         this.refs[name].refs.input.focus();
-    },
+    }
+
     submit(){
+        console.log(this);
         this._onSubmit();
-    },
+    }
+
+    getDoc(){
+        return FormHandler.getFormDoc(this.props.id);
+    }
+
     _onSubmit(event){
         // Event is not defined if onSubmit is called pragmatically
         if (event) {
             event.preventDefault();
         }
-
         var schema = this.props.schema;
         var formToDoc = FormHandler[this.props.id] && FormHandler[this.props.id].formToDoc;
 
@@ -41,6 +51,8 @@ Form = React.createClass({
             doc[field.name] = FormHandler.getFieldValue(field);
             return doc;
         }, {}));
+
+        console.log(this.refs.form);
 
         var validationContext = schema.newContext();
 
@@ -91,8 +103,9 @@ Form = React.createClass({
                 this.refs.form.reset();
             }
         }
-    },
-    _renderChildren: function () {
+    }
+
+    _renderChildren() {
 
         if (this.props.doc) {
             FormHandler.setFormDoc(this.props.id, this.props.doc);
@@ -171,8 +184,9 @@ Form = React.createClass({
                 }
             }.bind(this));
         }
-    },
-    render: function() {
+    }
+
+    render() {
 
         let className = "";
 
@@ -185,10 +199,23 @@ Form = React.createClass({
         }
 
         return (
-            <form {...this.props} className={className} ref="form" id={this.props.id} onSubmit={this._onSubmit}>
+            <form className={className} ref="form" id={this.props.id} onSubmit={this._onSubmit}>
                 {this._renderChildren()}
                 <div style={{clear: "both"}}></div>
             </form>
         )
     }
-});
+};
+
+FormComponent.propTypes = {
+    schema: PropTypes.instanceOf(SimpleSchema).isRequired,
+    id: PropTypes.string,
+    onSubmit: PropTypes.func,
+    resetOnSubmit: PropTypes.bool
+};
+
+FormComponent.childContextTypes = {
+    schema: PropTypes.instanceOf(SimpleSchema)
+};
+
+Form = FormComponent;
