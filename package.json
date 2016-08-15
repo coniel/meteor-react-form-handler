@@ -1,6 +1,6 @@
 {
   "name": "react-ss-form-handler",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "Form component with validation done using Simple Schema",
   "files": [
     "dist"
