@@ -1,6 +1,7 @@
 import { Component, PropTypes } from 'react';
 import SimpleSchema from 'simpl-schema';
 import Utils from '../utils';
+import FormHandler from '../react-form-handler';
 
 class Form extends Component {
 
