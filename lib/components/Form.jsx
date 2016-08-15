@@ -2,7 +2,7 @@ import { Component, PropTypes } from 'react';
 import SimpleSchema from 'simpl-schema';
 import Utils from '../utils';
 
-class FormComponent extends Component {
+class Form extends Component {
 
     constructor() {
         super();
@@ -207,15 +207,15 @@ class FormComponent extends Component {
     }
 };
 
-FormComponent.propTypes = {
+Form.propTypes = {
     schema: PropTypes.instanceOf(SimpleSchema).isRequired,
     id: PropTypes.string,
     onSubmit: PropTypes.func,
     resetOnSubmit: PropTypes.bool
 };
 
-FormComponent.childContextTypes = {
+Form.childContextTypes = {
     schema: PropTypes.instanceOf(SimpleSchema)
 };
 
-Form = FormComponent;
+export default Form;
