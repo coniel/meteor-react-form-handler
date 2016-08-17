@@ -31,7 +31,6 @@ class Form extends Component {
     }
 
     submit(){
-        console.log(this);
         this._onSubmit();
     }
 
@@ -53,8 +52,6 @@ class Form extends Component {
             return doc;
         }, {}));
 
-        console.log(this.refs.form);
-
         var validationContext = schema.newContext();
 
         // Temporarily remove the doc's ignored fields
@@ -72,7 +69,7 @@ class Form extends Component {
         if (!validationContext.validate(doc)) {
             var errors = {};
 
-            _.each(validationContext._invalidKeys, function(error) {
+            _.each(validationContext.validationErrors(), function(error) {
                 errors[error.name] = error.type;
             });
 
